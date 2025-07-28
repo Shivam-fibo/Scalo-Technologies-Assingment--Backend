@@ -36,7 +36,7 @@ app.post('/ask', async (req, res) => {
 
   try {
     console.log(' Extracting text from PDF...');
-    const transcriptWords = await extractTextFromPdfFile(`./pdfFile/${companyName}.pdf`);
+    const transcriptWords = await extractTextFromPdfFile(`./public/pdfFile/${companyName}.pdf`);
     const transcriptText = transcriptWords.join(' ');
     
     console.log(' Calling Groq API...');
