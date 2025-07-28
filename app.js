@@ -3,10 +3,14 @@ import cors from 'cors';
 import { extractTextFromPdfFile } from './extractPdf.js'; 
 import axios from 'axios';
 import dotenv from 'dotenv';
+import path from 'path';
+
 
 dotenv.config();
-
 const app = express();
+app.use('/pdfFile', express.static(path.join(process.cwd(), 'public/pdfFile')));
+
+
 
 
 
@@ -36,10 +40,10 @@ app.post('/ask', async (req, res) => {
 
   try {
     console.log(' Extracting text from PDF...');
-    // const transcriptWords = await extractTextFromPdfFile(`./public/pdfFile/${companyName}.pdf`);
-    const pdfUrl = `https://scalo-technologies-assingment-backe.vercel.app/pdfFile/${companyName}.pdf`;
-const transcriptWords = await extractTextFromPdfFile(pdfUrl);
+    const baseUrl = 'https://scalo-technologies-assingment-backe.vercel.app'
+    const pdfUrl = `${baseUrl}/pdfFile/${companyName}.pdf`;
 
+const transcriptWords = await extractTextFromPdfFile(pdfUrl);
     const transcriptText = transcriptWords.join(' ');
     
     console.log(' Calling Groq API...');
