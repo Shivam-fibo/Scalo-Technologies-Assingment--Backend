@@ -1,13 +1,22 @@
 import fs from 'fs';
+import axios from 'axios';
 import PDFParser from 'pdf2json';
 
 export const extractTextFromPdfFile = async (filePath) => {
   try {
-    if (!fs.existsSync(filePath)) {
-      throw new Error(`File not found: ${filePath}`);
+    let buffer;
+
+    if (filePath.startsWith('http')) {
+      // Fetch PDF over HTTP if filePath is a URL
+      const response = await axios.get(filePath, { responseType: 'arraybuffer' });
+      buffer = Buffer.from(response.data);
+    } else {
+      // Check if local file exists
+      if (!fs.existsSync(filePath)) {
+        throw new Error(`File not found: ${filePath}`);
+      }
+      buffer = fs.readFileSync(filePath);
     }
-    
-    const buffer = fs.readFileSync(filePath);
 
     const parser = new PDFParser(null, 1);
 
@@ -73,4 +82,3 @@ export const extractTextFromPdfFile = async (filePath) => {
     throw new Error(`PDF text extraction failed: ${error.message}`);
   }
 };
-
