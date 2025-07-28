@@ -1,13 +1,13 @@
-import fs from 'fs';
+
 import PDFParser from 'pdf2json';
-
-export const extractTextFromPdfFile = async (filePath) => {
+import axios from 'axios';
+export const extractTextFromPdfFile = async (pdfUrl) => {
+    console.log(pdfUrl)
   try {
-    if (!fs.existsSync(filePath)) {
-      throw new Error(`File not found: ${filePath}`);
-    }
+ 
+    const response = await axios.get(pdfUrl, { responseType: 'arraybuffer' });
 
-    const buffer = fs.readFileSync(filePath);
+const buffer = Buffer.from(response.data);
 
     const parser = new PDFParser(null, 1);
 

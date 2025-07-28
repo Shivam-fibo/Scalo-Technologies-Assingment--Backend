@@ -36,7 +36,10 @@ app.post('/ask', async (req, res) => {
 
   try {
     console.log(' Extracting text from PDF...');
-    const transcriptWords = await extractTextFromPdfFile(`./public/pdfFile/${companyName}.pdf`);
+    // const transcriptWords = await extractTextFromPdfFile(`./public/pdfFile/${companyName}.pdf`);
+    const pdfUrl = `https://scalo-technologies-assingment-backe.vercel.app/pdfFile/${companyName}.pdf`;
+const transcriptWords = await extractTextFromPdfFile(pdfUrl);
+
     const transcriptText = transcriptWords.join(' ');
     
     console.log(' Calling Groq API...');
